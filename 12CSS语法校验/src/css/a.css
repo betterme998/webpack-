@@ -1,0 +1,141 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#captcha {
+  --width: 400px;
+  --height: 260px;
+
+  /* 设置拼图方块的大小 */
+  --puzzle-width: 80px;
+  --puzzle-height: 80px;
+  --moved: 1000px;
+
+  display: block;
+  width: var(--width);
+  height: var(--height);
+  border-radius: 4px;
+
+  /* background-image: url('../img/21.jpg'); */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* <!-- 接下来制作两块拼图，一块在外面，一块在里面
+
+        里面的那块是拼图的缺口的提示
+        即然刚好是两块，就直接用Pseudo Element伪类制作--> */
+#captcha::before,
+#captcha::after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: inherit;
+  height: inherit;
+  background-image: inherit;
+  background-color: lightcoral;
+  background-size: inherit;
+  background-position: inherit;
+
+  /* 设置拼图方块的大小 */
+
+  /* clip-path: ;使用裁剪方式创建元素的可显示区域。区域内的部分显示，区域外的隐藏。 */
+  clip-path:
+    inset(
+      
+        calc( (var      t) - var(--puzzle-height))/2 )
+        
+            puzzle-width)
+                calc( (var(--hei      ar(--puzzle-height))             
+        calc( var(--width) - var(--puzz      *2 )
+
+    )      ;
+  -webkit-clip-path:
+    inset(
+      
+        calc( (var      t) - var(--puzzle-height))/2 )
+        
+            puzzle-width)
+                calc( (var(--hei      ar(--puzzle-height))             
+        calc( var(--width) - var(--puzz      *2 )
+
+    )      ;
+}
+
+/* 然后将其中一个方块向左移出来 */
+#captcha::after {
+  transform:
+    translateX(
+      clamp(
+        calc(var(--width) *-1),
+        calc(var(--width) * -1) + var(--moved),
+        calc(var(--puzzle-width))
+      )
+    );
+  transition: 0.25s all ease-in-out;
+}
+
+#captcha:active::after {
+  transition: none;
+}
+
+#captcha::before {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  /* 属性可以让各个背景图像之间应用混合模式。
+    不仅各个图像之间要进行混合，同时还要和背景色进行混合。 */
+  background-blend-mode: multiply;
+}
+
+#handle {
+  width: calc(var(--width) + var(--puzzle-width) *2);
+  height: 30px;
+  border-radius: 18px;
+  background-color: #eee;
+  position: absolute;
+  bottom: -50px;
+  left: calc(var(--puzzle-width) *2*-1);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.2);
+  border: 3px solid #ccc;
+}
+
+/* 处理拖拉的按钮 */
+#handle span {
+  display: block;
+  width: var(--puzzle-width);
+  height: inherit;
+  border-radius: inherit;
+  background-color: #fff;
+
+  /* 设置内阴影 */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  cursor: move;
+
+  /* 处理水平拖来的位移 需要最大最小值，不然会超出滚动条 */
+  transform:
+    translateX(
+      clamp(
+        0px,
+        var(--moved),
+        calc(var(--puzzle-width) + var(--width))
+      )
+    );
+  transition: 0.25s all ease-in-out;
+}
+
+#captcha:active #handle span {
+  transition: none;
+}
+
+/* 拼接上时的效果 */
+#captcha.passed::before,
+#captcha.passed::after,
+#captcha.passed #handle {
+  opacity: 0;
+}

@@ -1,0 +1,16 @@
+#box2 {
+  width: 400px;
+  height: 260px;
+  display: flex;
+  backface-visibility: hidden;
+  background-image: url('../21.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+img {
+  width: 800px;
+  height: 490px;
+  object-fit: cover;
+  margin: 0 auto;
+}

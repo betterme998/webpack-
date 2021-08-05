@@ -1,0 +1,1 @@
+Number.prototype.pad=function(t){let e=this+"";for(;e.length<t;)e="0"+e;return e};

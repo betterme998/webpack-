@@ -1,0 +1,52 @@
+#box1{
+    width: 200px;
+    height: 200px;
+    background-color: turquoise;
+}
+#captcha::before, #captcha::after{
+    display: -webkit-flex;
+    display: flex;
+    position: absolute;
+    content: '';
+    display: block;
+    width: inherit;
+    height: inherit;
+    background-image: inherit;
+    background-color: lightcoral;
+    background-size: inherit;
+    background-position: inherit;
+
+    /* 设置拼图方块的大小 */
+    /* clip-path: ;使用裁剪方式创建元素的可显示区域。区域内的部分显示，区域外的隐藏。 */
+    -webkit-clip-path:inset(
+        /* 第一个值由上向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+        /* 第二个值由右向内方向缩小 */
+        var(--puzzle-width)
+        /* 第三个值由下向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+         /* 第四个值由左向内方向缩小 */
+        calc( var(--width) - var(--puzzle-width)*2 )
+
+    );
+            clip-path:inset(
+        /* 第一个值由上向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+        /* 第二个值由右向内方向缩小 */
+        var(--puzzle-width)
+        /* 第三个值由下向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+         /* 第四个值由左向内方向缩小 */
+        calc( var(--width) - var(--puzzle-width)*2 )
+
+    );
+}
+#box2{
+    width: 200px;
+    height: 200px;
+    background-color: turquoise;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}

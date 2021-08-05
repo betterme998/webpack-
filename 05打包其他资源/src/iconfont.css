@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1624373709440') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 36px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-left: 20px;
+}
+
+.icon-earth:before {
+  content: "\e74e";
+}
+
+.icon-QRcode:before {
+  content: "\e75e";
+}
+
+.icon-viewgallery:before {
+  content: "\e76c";
+}
+
+.icon-email-fill:before {
+  content: "\e77e";
+}
+

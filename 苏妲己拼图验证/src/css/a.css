@@ -1,0 +1,241 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    /* min-width: 100vw; */
+    --width:30rem;
+    --height: 19.5rem;
+    /* 设置拼图方块的大小 */
+    --puzzle-width:6rem;
+    --puzzle-height:6rem;
+    --moved: 0rem;
+}
+.centers{
+    width: calc( var(--width) + var(--puzzle-width) *2 );
+    height: calc( var(--height)*1.2 );
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+#captcha{
+    display: flex;
+    align-items: flex-end;
+    width: var(--width);
+    height: var(--height);
+    border-radius: 4px;
+    /* 通过webpack  publicPath 添加路径进来 */
+    background-size:cover;
+    background-position: center;
+    position: absolute;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, .3);
+    /* left: var(--puzzle-width); */
+    margin-bottom: 6.25rem;
+    box-sizing: border-box;
+}
+.huan0{
+    background-image: url('../imgs/21.jpg');
+}
+.huan1{
+    background-image: url('../imgs/20.jpg');
+}
+.huan2{
+    background-image: url('../imgs/19.jpg');
+}
+.huan3{
+    background-image: url('../imgs/22.jpg');
+}
+.huan4{
+    background-image: url('../imgs/23.jpg');
+}
+.huan5{
+    background-image: url('../imgs/24.jpg');
+}
+/* <!-- 接下来制作两块拼图，一块在外面，一块在里面
+        
+        里面的那块是拼图的缺口的提示
+        即然刚好是两块，就直接用Pseudo Element伪类制作--> */
+#captcha::before, #captcha::after{
+    position: absolute;
+    content: '';
+    display: block;
+    width: inherit;
+    height: inherit;
+    background-image: inherit;
+    background-color: lightcoral;
+    background-size: inherit;
+    background-position: inherit;
+
+    /* 设置拼图方块的大小 */
+    /* clip-path: ;使用裁剪方式创建元素的可显示区域。区域内的部分显示，区域外的隐藏。 */
+    clip-path:inset(
+        /* 第一个值由上向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+        /* 第二个值由右向内方向缩小 */
+        var(--puzzle-width)
+        /* 第三个值由下向内方向缩小 */
+        calc( (var(--height) - var(--puzzle-height))/2 )
+         /* 第四个值由左向内方向缩小 */
+        calc( var(--width) - var(--puzzle-width)*2 )
+
+    );
+   
+}
+
+/* 然后将其中一个方块向左移出来 */
+#captcha::after{
+    transform: translateX(
+        clamp(
+            calc( var(--width)*-1),
+            calc( var(--width)* -1) + var(--moved),
+            calc( var(--puzzle-width) )
+        )
+    );
+    transition: .25s all ease-in-out;
+
+}
+.centers:active #captcha::after{
+    transition: none;
+}
+#captcha::before{
+    background-color: rgba(0, 0, 0, .6);
+    /* 属性可以让各个背景图像之间应用混合模式。
+    不仅各个图像之间要进行混合，同时还要和背景色进行混合。 */
+    background-blend-mode: multiply;
+}
+
+#handle{
+    width: calc( var(--width) + var(--puzzle-width) *2 );
+    height: 30px;
+    border-radius: 18px;
+    background-color: #eee;
+    position: absolute;
+    left: calc( var(--puzzle-width)*2*-1 );
+    box-shadow: inset 0px 0px 12px rgba(0, 0, 0, .2);
+    border: 3px solid #ccc;
+    bottom: -60px;
+    
+}
+/* 处理拖拉的按钮 */
+#handle span{
+    display: block;
+    width: var(--puzzle-width);
+    height: inherit;
+    box-sizing: border-box;
+    border-radius: inherit;
+    background-color: #fff;
+    /* 设置内阴影 */
+    box-shadow: inset 0px 0px 6px rgba(0, 0, 0, .25),0px 2px 4px rgba(0, 0, 0, .3);
+    position: absolute;
+    cursor: move;
+    /* 处理水平拖来的位移 需要最大最小值，不然会超出滚动条 */
+    transform: translateX(
+        clamp(
+            0rem,
+            var(--moved),
+            calc( var(--puzzle-width) + var(--width) )
+        )
+    );
+
+    transition: .25s all ease-in-out;
+}
+.centers:active #handle span{
+    transition: none;
+}
+/* 拼接上时的效果 */
+#captcha.passed::before,
+#captcha.passed::after,
+#captcha.passed #handle{
+    opacity: 0;
+}
+
+/* 按钮 */
+.anniu{
+    width: calc( var(--width) + var(--puzzle-width) *2 );
+    height: calc( var(--puzzle-width));
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+    box-sizing: border-box;
+    position: relative;
+}
+.anniu div{
+    width: 26%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.anniu .a0{
+    background-image: url('../imgs/21.jpg');
+}
+.anniu .a1{
+    background-image: url('../imgs/20.jpg');
+}
+.anniu .a2{
+    background-image: url('../imgs/19.jpg');
+} 
+.anniu .a3{
+    background-image: url('../imgs/22.jpg');
+}
+.anniu .a4{
+    background-image: url('../imgs/23.jpg');
+}
+.anniu .a5{
+    background-image: url('../imgs/24.jpg');
+} 
+
+
+
+
+
+.anniu div:active{
+   border: 1px solid #eee;
+}
+.anniu span{
+    color:rgb(153, 149, 149);
+    font-size: 2rem;
+    position: absolute;
+     /* right: 2rem; */
+    top: -100%; 
+}
+
+@media(max-width:680px){
+    #handle{
+        height: 1.325rem;
+        border-radius: 0.7rem;
+        bottom: -1.87rem;
+        border: 1px solid #ccc;
+        /* left: 0; */
+    }
+    #handle span{
+        transition: none;
+    }
+    #captcha::after{
+        transition: none;
+    }
+    body{
+        
+        --width:15rem;
+        --height: 9.7503rem;
+        --width:15rem;
+        --height: 9.7503rem;
+    
+        /* 设置拼图方块的大小 */
+        --puzzle-width:3rem;
+        --puzzle-height:3rem;
+        --moved: 0rem;   
+        justify-content: flex-start;
+    }
+
+    .anniu span{
+        top: -2rem; 
+    }
+}
+
+

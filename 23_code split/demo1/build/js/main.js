@@ -1,0 +1,1 @@
+!function(){"use strict";console.log(7..pad(3))}();
